@@ -1,25 +1,16 @@
-var orm = require('../config/orm.js');
+var importOrm = require('../config/orm.js')['exportAll'];
+var dbTable = 'burgers';
 
-var burger = {
-
-	all: function (cb) {
-		orm.all('burgers', function (res) {
-			cb(res);	
-		});
+var exportOrm = {
+	allBurgers: function(cb){
+		importOrm.selectAll(dbTable, cb)
+	}, 
+	createBurgers: function(name, cb){
+		importOrm.insertOne(dbTable, name, cb)
 	},
-
-	create: function (cols, vals, cb) {
-		orm.create('burgers', cols, vals, function (res) {
-			cb(res);	
-		});
-	},
-
-	update: function (objColVals, condition, cb) {
-		orm.update('burgers', objColVals, condition, function (res) {
-			cb(res);
-		});
+	updateBurgers: function(id, cb){
+		importOrm.updateOne(dbTable, id, cb);
 	}
-};
+};	
 
-
-module.exports = burger;
+module.exports['exportModels'] = exportOrm;
